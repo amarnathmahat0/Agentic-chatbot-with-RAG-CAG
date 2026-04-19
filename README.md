@@ -1,169 +1,96 @@
-**AGENTIC CHATBOT WITH CAG**
+# 🤖 Agentic Chatbot with CAG (Cache-Augmented Generation)
 
-A Python-based offline AI assistant with Cache-Augmented Generation (CAG), weather forecasting, route planning, and voice input/output capabilities. Built using llama3.2:3b (via Ollama), OpenWeatherMap, OpenRouteService, and spaCy, it supports document-based queries, weather updates, and navigation directions, with a Tkinter GUI.
+[![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python&logoColor=white)](https://www.python.org/)
+[![Ollama](https://img.shields.io/badge/LLM-Llama%203.2-orange?logo=ollama&logoColor=white)](https://ollama.com/)
+[![Framework](https://img.shields.io/badge/Architecture-RAG%20%2F%20CAG-green?style=flat-square)](#-features)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**Features**
+A high-performance, **offline AI assistant** featuring Cache-Augmented Generation (CAG), real-time weather integration, smart route planning, and seamless voice interaction. Built for privacy and speed.
 
--Cache-Augmented Generation (CAG): Preload documents (PDF, DOCX, TXT) to answer queries using stored document chunks, with KV cache for efficiency.
+---
 
--Weather Forecasts: Fetch real-time weather and forecasts using OpenWeatherMap API.
+## 🌟 Key Features
 
--Route Planning: Calculate driving routes and distances using OpenRouteService API.
+- **📂 Cache-Augmented Generation (CAG):** Preload PDF, DOCX, or TXT files using KV cache for near-instant document-based Q&A without repeated processing.
+- **☁️ Weather Forecasting:** Real-time weather updates and 5-day forecasts via [OpenWeatherMap](https://openweathermap.org/).
+- **🗺️ Smart Navigation:** Advanced route planning and distance calculation using [OpenRouteService](https://openrouteservice.org/).
+- **🎙️ Voice-Activated Interface:** Hands-free operation with wake-word detection ("Jarvis") and text-to-speech (gTTS).
+- **🧠 Local Intelligence:** Fully offline LLM processing using **Llama 3.2:3b** via [Ollama](https://ollama.com/).
+- **🎭 Mood Awareness:** Facial emotion detection for a more personalized interaction (via `main.py`).
+- **🗄️ Context Retention:** Integration with [Qdrant](https://qdrant.tech/) vector database for long-term memory.
 
--Voice Interaction: Supports voice input (wake word: "Jarvis") and text-to-speech output using speech_recognition and gTTS.
+---
 
--Mood Detection: Integrates facial emotion detection (requires main.py with relevant code).
+## 🛠️ Tech Stack
 
--Qdrant Integration: Stores past interactions for context (requires Qdrant setup).
+| Component | Technology |
+| :--- | :--- |
+| **LLM Engine** | Llama 3.2 (via Ollama) |
+| **Backend** | Python, Express (Local Server) |
+| **GUI** | Tkinter |
+| **Vector DB** | Qdrant |
+| **APIs** | OpenWeather, OpenRouteService |
+| **NLP** | spaCy (en_core_web_sm) |
 
--Local LLM: Uses llama3.2:3b via Ollama for offline query processing.
+---
 
+## ⚙️ Setup & Installation
 
-
-**Setup**
-
-Clone the Repository:
-
-[Agentic Chatbot with CAG](https://github.com/amaraashishmahatokushwaha/Agentic-chatbot-with-CAG "GitHub Repository for Agentic Chatbot with CAG")
-
-
-cd llama3_assistant
-
-Create and Activate Virtual Environment:
-
-python3 -m venv venv
-
-source venv/bin/activate  # Linux/Mac
-
-venv\Scripts\activate     # Windows
-
-
-**Install Dependencies:**
-
+### 1. Clone & Environment
+```bash
+git clone [https://github.com/amarnathmahat0/Agentic-chatbot-with-RAG-CAG.git](https://github.com/amarnathmahat0/Agentic-chatbot-with-RAG-CAG.git)
+cd Agentic-chatbot-with-RAG-CAG
+python -m venv venv
+# Activate:
+# Windows: venv\Scripts\activate | Mac/Linux: source venv/bin/activate
+2. Dependencies
+Bash
 pip install -r requirements.txt
-
-Install spaCy Model:
-
 python -m spacy download en_core_web_sm
+3. External Services
+Ollama: Install and run ollama pull llama3.2:3b.
 
-Set Up Ollama:
+Qdrant: Run via Docker: docker run -p 6333:6333 qdrant/qdrant.
 
-Install Ollama: Ollama Installation Guide.
+API Keys: Rename .env.example to .env and add your keys:
 
-Pull llama3.2:3b:
+Code snippet
+OPENWEATHER_API_KEY=your_key_here
+OPENROUTESERVICE_API_KEY=your_key_here
+🚀 How to Run
+Start the Ollama server: ollama serve
 
-ollama pull llama3.2:3b
+Run the main application:
 
-Start Ollama server:
+Bash
+python test.py
+Using the Bot:
 
+Upload Documents: Use the "Upload (CAG)" button to feed data.
 
-ollama serve
+Voice Mode: Click "Enable Voice" and say "Jarvis" to start talking.
 
-Set Up Qdrant:
+Commands: Try "What is the weather in Delhi?" or "Route from Mumbai to Pune."
 
-Install Qdrant: Qdrant Docker Setup.
+🔍 Advanced: Inspecting KV Cache
+To verify how your documents are stored and optimized in the cache:
 
-Run Qdrant locally:
-
-docker run -p 6333:6333 qdrant/qdrant
-
-Configure API Keys:
-
-In test.py, replace API keys (or set environment variables):
-
-self.weather_api_key = "your_openweathermap_key"  # Get from https://openweathermap.org/
-
-self.ors_api_key = "your_openrouteservice_key"    # Get from https://openrouteservice.org/
-
-
-**Running the Application**
-
-Activate Virtual Environment:
-
-#source venv/bin/activate  # Linux/Mac
-
-#venv\Scripts\activate     # Windows
-
-
-Start Ollama Server (if not running):
-
-ollama serve
-
-Run the Script:
-
-python3 test.py
-
-**Interact with the GUI:**
-
-Select/Add User: Choose or create a user from the dropdown.
-
-Upload Document: Click "Upload Document (CAG)" to preload documents (e.g., curated_documents/Top Bars & Pubs in Bengaluru -1.pdf).
-
-Voice Mode: Click "Enable Voice Mode" and say "Jarvis" followed by your query.
-
-Text Input: Type queries (e.g., "weather in Bengaluru", "route from Mumbai to Delhi", "good pubs in Bengaluru").
-
-View Responses: Responses appear in the chat window, with voice output if enabled.
-
-**Example Queries**
-
-
-Weather: "What's the weather in Bengaluru today?"
-
-**Inspecting KV Cache**
-
-To view KV cache contents (e.g., for uploaded documents):
-
+Bash
 python kv_cache.py
+🤝 Contributing
+Contributions make the open-source community amazing!
 
-Note: Ensure kv_cache.py is updated to target the correct cache file (see previous conversation).
+Fork the Project
 
-**Troubleshooting**
+Create your Feature Branch (git checkout -b feature/AmazingFeature)
 
-Ollama Not Responding:
+Commit your Changes (git commit -m 'Add some AmazingFeature')
 
-Check server: curl http://127.0.0.1:11434
+Push to the Branch (git push origin feature/AmazingFeature)
 
-Restart: ollama serve
+Open a Pull Request
 
-**Qdrant Errors:**
+📜 License
+Distributed under the MIT License. See LICENSE for more information.
 
-Verify Qdrant is running: docker ps
-
-Check main.py for correct Qdrant configuration.
-
-**Voice Input Issues:**
-
-Ensure portaudio is installed and microphone is accessible.
-
-Test: python -c "import speech_recognition as sr; r = sr.Recognizer(); with sr.Microphone() as source; print(r.recognize_google(r.listen(source)))"
-
-**Document Upload Fails:**
-
-Check logs in data/assistant.log or console.
-
-Ensure ffmpeg and textract dependencies are installed.
-
-**API Errors:**
-
-Verify API keys in test.py.
-
-Check network: ping api.openweathermap.org
-
-**Dependencies**
-
-If requirements.txt is missing, install:
-
-pip install requests spacy tkinter PyPDF2 python-docx textract ollama speechrecognition gtts pygame qdrant-client
-
-**Contributing**
-
-Fork the repository.
-
--Create a feature branch: git checkout -b feature-name
-
--Commit changes: git commit -m "Add feature"
-
--Push: git push origin feature-name
-
--Open a pull request.
+Developed by Amarnath Mahato
